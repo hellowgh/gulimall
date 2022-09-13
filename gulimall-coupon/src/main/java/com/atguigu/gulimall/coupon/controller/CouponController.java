@@ -1,11 +1,11 @@
 package com.atguigu.gulimall.coupon.controller;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import com.atguigu.gulimall.coupon.entity.CouponEntity;
@@ -18,15 +18,30 @@ import com.atguigu.common.utils.R;
 /**
  * 优惠券信息
  *
- * @author leifeiyang
+ * @author wgh
  * @email wgh@gmail.com
  * @date 2022-09-12 17:28:05
  */
+
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+    @Value("${coupon.user.name}")
+    private String name;
+    @Value("${coupon.user.age}")
+    private Integer age;
+
+    public CouponController() {
+    }
+
+    @RequestMapping("/test")
+    public R test() {
+        return  R.ok().put("name", name).put("age", age);
+    }
 
     @RequestMapping("/member/list")
     public R memberCoupons() {
